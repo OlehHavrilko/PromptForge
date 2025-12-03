@@ -9,12 +9,12 @@ import { generatePrompt, templates } from "@/lib/promptGenerator";
 import { Wand2, Zap, FileText, Code, Megaphone, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const iconMap = {
+const iconMap: Record<string, typeof FileText> = {
   FileText,
   Code,
   Megaphone,
   Search,
-} as const;
+};
 
 const Index = () => {
   const [input, setInput] = useState("");
@@ -96,7 +96,7 @@ const Index = () => {
               onSelect={setTaskType}
             />
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="space-y-6">
               <OptionSlider
                 label="Tone"
                 options={["Professional", "Casual", "Creative", "Technical"]}
