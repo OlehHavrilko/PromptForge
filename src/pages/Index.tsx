@@ -5,6 +5,7 @@ import { TaskTypeSelector } from "@/components/TaskTypeSelector";
 import { OptionSlider } from "@/components/OptionSlider";
 import { GeneratedPrompt } from "@/components/GeneratedPrompt";
 import { TemplateCard } from "@/components/TemplateCard";
+import { ImageAnalyzer } from "@/components/ImageAnalyzer";
 import { generatePrompt, templates } from "@/lib/promptGenerator";
 import { Wand2, Zap, FileText, Code, Megaphone, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -124,11 +125,16 @@ const Index = () => {
           </div>
 
           {/* Output Section */}
-          <div>
+          <div className="space-y-8">
             <GeneratedPrompt
               prompt={generatedPrompt}
               isGenerating={isGenerating}
             />
+            
+            {/* Image Analyzer */}
+            <div className="glass-strong rounded-xl p-5">
+              <ImageAnalyzer />
+            </div>
           </div>
         </div>
 
