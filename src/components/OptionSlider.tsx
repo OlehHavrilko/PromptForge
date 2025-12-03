@@ -11,16 +11,16 @@ export function OptionSlider({ label, options, selected, onSelect }: OptionSlide
   return (
     <div className="space-y-3">
       <label className="text-sm font-medium text-muted-foreground">{label}</label>
-      <div className="flex gap-2 p-1 bg-secondary/50 rounded-lg">
+      <div className="flex flex-wrap gap-2">
         {options.map((option) => (
           <button
             key={option}
             onClick={() => onSelect(option)}
             className={cn(
-              "flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all duration-200",
+              "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 border",
               selected === option
-                ? "bg-primary text-primary-foreground shadow-lg"
-                : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20"
+                : "bg-secondary/50 text-muted-foreground border-border hover:text-foreground hover:bg-secondary hover:border-primary/30"
             )}
           >
             {option}
