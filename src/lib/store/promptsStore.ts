@@ -9,6 +9,7 @@ import type {
 } from "@/lib/types/promptTypes";
 
 const STORAGE_KEY = "promtforge-state-v1";
+const OLD_STORAGE_KEY = "prompt-manager-state-v1";
 
 type PersistedState = Pick<PromptStoreState, "prompts" | "collections" | "filters">;
 
@@ -31,7 +32,28 @@ const loadFromStorage = (): PersistedState | null => {
   if (typeof window === "undefined") return null;
 
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
+    // Try new key first
+    let raw = window.localStorage.getItem(STORAGE_KEY);
+
+    // If no data under new key, try migrating from old key
+    if (!raw) {
+      const oldRaw = window.localStorage.getItem(OLD_STORAGE_KEY);
+      if (oldRaw) {
+        // Validate old data before migrating
+        const parsedOld = JSON.parse(oldRaw) as PersistedState | null;
+        if (parsedOld && Array.isArray(parsedOld.prompts) && Array.isArray(parsedOld.collections)) {
+          // Save under new key and remove old key
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(parsedOld));
+          try {
+            window.localStorage.removeItem(OLD_STORAGE_KEY);
+          } catch {
+            // ignore remove errors
+          }
+          raw = window.localStorage.getItem(STORAGE_KEY);
+        }
+      }
+    }
+
     if (!raw) return null;
 
     const parsed = JSON.parse(raw) as PersistedState;
